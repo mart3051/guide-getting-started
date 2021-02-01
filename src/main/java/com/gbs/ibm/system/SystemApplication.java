@@ -15,7 +15,7 @@ package com.gbs.ibm.system;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("/system")
+@ApplicationPath("/")
 public class SystemApplication extends Application {
 
 }

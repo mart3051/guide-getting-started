@@ -9,6 +9,8 @@
         <feature>mpHealth-2.2</feature>
         <!-- end::mpHealth[] -->
         <feature>mpConfig-1.4</feature>
+        <feature>jpa-2.2</feature>
+        <feature>jdbc-4.2</feature>
     </featureManager>
     <!-- end::features[] -->
 
@@ -17,7 +19,16 @@
 
     <webApplication location="db-mq-poc.war" contextRoot="/" />
     <mpMetrics authentication="false"/>
-
+    <library id="jdbcLib">
+            <fileset dir="jdbc" includes="*.jar"/>
+    </library>
+    <dataSource jndiName="DefaultDataSource">
+         <jdbcDriver libraryRef="jdbcLib"/>
+         <properties.db2.jcc serverName="localhost" portNumber="50000"
+                databaseName="${DB_NAME}"
+                user="${DB_USER}"
+                password="${DB_PWD}"/>
+    </dataSource>
     <!-- tag::logging[] -->
     <logging traceSpecification="com.ibm.ws.microprofile.health.*=all" />
     <!-- end::logging[] -->

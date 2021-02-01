@@ -59,8 +59,12 @@
             <version>1.1.4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+             <groupId>com.ibm.db2</groupId>
+             <artifactId>jcc</artifactId>
+             <version>11.5.5.0</version>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -69,7 +73,15 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.3-M2</version>
+                <configuration>
+                <copyDependencies>
+                  <dependency>
+                       <filter>com.ibm.db2:jcc:11.5.5.0</filter>
+                       <location>jdbc</location>
+                  </dependency>
+                </copyDependencies>
+                </configuration>
             </plugin>
             <!-- end::libertyMavenPlugin[] -->
             <plugin>
