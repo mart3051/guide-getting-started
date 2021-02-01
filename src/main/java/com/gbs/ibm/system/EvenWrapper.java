@@ -1,7 +1,13 @@
 package com.gbs.ibm.system;
 
-public class EvenWrapper {
+import java.io.Serializable;
 
+public class EvenWrapper implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String location;
     private String time;
     private String name;

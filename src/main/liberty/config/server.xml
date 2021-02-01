@@ -4,13 +4,17 @@
         <feature>jaxrs-2.1</feature>
         <feature>jsonp-1.1</feature>
         <feature>cdi-2.0</feature>
-        <feature>mpMetrics-2.3</feature>
+        <feature>mpMetrics-2.2</feature>
         <!-- tag::mpHealth[] -->
         <feature>mpHealth-2.2</feature>
         <!-- end::mpHealth[] -->
         <feature>mpConfig-1.4</feature>
         <feature>jpa-2.2</feature>
         <feature>jdbc-4.2</feature>
+        <feature>ejb-3.2</feature>
+		<feature>jms-2.0</feature>
+		<feature>mdb-3.2</feature>
+		<feature>localConnector-1.0</feature>
     </featureManager>
     <!-- end::features[] -->
 
@@ -22,6 +26,29 @@
     <library id="jdbcLib">
             <fileset dir="jdbc" includes="*.jar"/>
     </library>
+
+    <resourceAdapter id="wmqjmsra"
+		location="${server.config.dir}/wmq.jmsra-9.2.1.0.rar" />
+
+	<jmsConnectionFactory
+		connectionManagerRef="ConMgr6" jndiName="jms/wmqCF">
+		<properties.wmqjmsra channel="DEV.APP.SVRCONN"
+			hostName="localhost" password="${MQ_PASSWD}" port="1414"
+			queueManager="QM1" transportType="CLIENT" userName="app" />
+	</jmsConnectionFactory>
+	<connectionManager id="ConMgr6" maxPoolSize="2"/>
+
+	<jmsActivationSpec id="db-mq-poc/SampleListenerMDB">
+		<properties.wmqjmsra channel="DEV.APP.SVRCONN"
+			destinationRef="jms/queue1" destinationType="javax.jms.Queue"
+			hostName="localhost" password="${MQ_PASSWD}" port="1414"
+			queueManager="QM1" transportType="CLIENT" userName="app" />
+	</jmsActivationSpec>
+
+	<jmsQueue id="jms/queue1" jndiName="jms/queue1">
+		<properties.wmqjmsra baseQueueManagerName="QM1"
+			baseQueueName="DEV.QUEUE.1" />
+	</jmsQueue>
     <dataSource jndiName="DefaultDataSource">
          <jdbcDriver libraryRef="jdbcLib"/>
          <properties.db2.jcc serverName="localhost" portNumber="50000"
