@@ -24,7 +24,7 @@
     <webApplication location="db-mq-poc.war" contextRoot="/" />
     <mpMetrics authentication="false"/>
     <library id="jdbcLib">
-            <fileset dir="jdbc" includes="*.jar"/>
+            <fileset dir="/config/jdbc/" includes="*.jar"/>
     </library>
 
     <resourceAdapter id="wmqjmsra"
@@ -33,25 +33,25 @@
 	<jmsConnectionFactory
 		connectionManagerRef="ConMgr6" jndiName="jms/wmqCF">
 		<properties.wmqjmsra channel="DEV.APP.SVRCONN"
-			hostName="localhost" password="${MQ_PASSWD}" port="1414"
-			queueManager="QM1" transportType="CLIENT" userName="app" />
+			hostName="${MQ_HOST}" password="${MQ_PASSWD}" port="1414"
+			queueManager="${QM}" transportType="CLIENT" userName="app" />
 	</jmsConnectionFactory>
 	<connectionManager id="ConMgr6" maxPoolSize="2"/>
 
 	<jmsActivationSpec id="db-mq-poc/SampleListenerMDB">
 		<properties.wmqjmsra channel="DEV.APP.SVRCONN"
 			destinationRef="jms/queue1" destinationType="javax.jms.Queue"
-			hostName="localhost" password="${MQ_PASSWD}" port="1414"
-			queueManager="QM1" transportType="CLIENT" userName="app" />
+			hostName="${MQ_HOST}" password="${MQ_PASSWD}" port="1414"
+			queueManager="${QM}" transportType="CLIENT" userName="app" />
 	</jmsActivationSpec>
 
 	<jmsQueue id="jms/queue1" jndiName="jms/queue1">
-		<properties.wmqjmsra baseQueueManagerName="QM1"
+		<properties.wmqjmsra baseQueueManagerName="${QM}"
 			baseQueueName="DEV.QUEUE.1" />
 	</jmsQueue>
     <dataSource jndiName="DefaultDataSource">
          <jdbcDriver libraryRef="jdbcLib"/>
-         <properties.db2.jcc serverName="localhost" portNumber="50000"
+         <properties.db2.jcc serverName="${DB_HOST}" portNumber="50000"
                 databaseName="${DB_NAME}"
                 user="${DB_USER}"
                 password="${DB_PWD}"/>
